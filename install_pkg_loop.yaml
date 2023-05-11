@@ -1,0 +1,14 @@
+---
+- name: Install packages
+  hosts: all
+  become: yes
+  tasks:
+    - name: Update cache and install vim , curl and unzip installed
+      ansible.builtin.apt:
+        name: "{{item}}"
+        update_cache: yes
+      loop:
+        - vim
+        - curl
+        - unzip  
+

@@ -1,0 +1,14 @@
+---
+- name: create user files  using loop
+  hosts: all
+  become: yes
+  tasks: 
+    - name: create user file_exists
+      ansible.builtin.file:
+         path: /tmp/ansible-{{ item }}
+         state: touch
+      loop:
+        - Ali
+        - ansible
+        - root
+           

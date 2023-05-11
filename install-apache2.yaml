@@ -1,0 +1,17 @@
+---
+- name: installing apache2 on ubuntu
+  hosts: all
+  become: yes
+  tasks:
+    - name: install apache2 
+      ansible.builtin.apt:
+        name: apache2
+        state: latest
+        update_cache: yes
+    - name: adjusting firewall
+      community.general.ufw:
+        rule: allow
+        port: '80'
+        proto: tcp
+         
+            

@@ -1,0 +1,54 @@
+# Spring-petclinic YAML file
+---
+- hosts: all
+  become: yes
+  vars:
+    shell_commands:
+      #- chmod +x /usr/local/bin/spc.sh
+      - systemctl daemon-reload
+      - systemctl enable spring-petclinic
+      - systemctl start spring-petclinic
+      #- systemctl stop spring-petclinic
+  tasks:
+    - name: update ubuntu 
+      apt: 
+        update_cache: yes
+        state: present 
+    - name: install jdk8
+      apt:
+        name: openjdk-8-jdk
+        state: latest
+        install_recommends: no 
+# Downloading jar file from repository using get_url module
+    - name: get springpetclinic file  
+      get_url:
+        url: https://learningspcfromqt.s3.us-east-2.amazonaws.com/spring-petclinic.jar        
+        dest: /home/spring-petclinic.jar
+        mode: '0755'
+# If we have a jar file , copying using file module
+#   - name: Copying the jar file
+#     copy:
+#       src: /home/spring-petclinic.jar
+#       dest: /home/spring-petclinic.jar
+#       mode: '0755'        
+#Script for Executing a jar file  
+    - name: Script for Executing a jar file 
+      template:
+        src: templates/spc.sh.j2
+        dest: /usr/local/bin/spc.sh
+        mode: '0711' 
+#Running a java application as linux service
+    - name:     
+      template:
+        src: templates/spring-petclinic.service.j2
+        dest: /etc/systemd/system/spring-petclinic.service        
+    - name: executing the service
+      shell:
+        cmd: "{{ item }}"
+      loop: "{{ shell_commands }}"   
+              
+                 
+
+
+
+

@@ -1,0 +1,8 @@
+---
+- name: facts gathering
+  hosts: all
+  become: yes
+  tasks:
+    - name: print facts
+      ansible.builtin.debug:
+        msg: "IPv4 address: {{ ansible_default_ipv4.address }} "

@@ -1,0 +1,24 @@
+---
+- name: creating a file
+  hosts: all
+  become: yes
+  vars:
+    - user: Ali
+  tasks:
+    - name: check if file already exists
+      ansible.builtin.command: ls /home/{{ user }}/myfile
+      register: file_exists
+      ignore_erros: yes
+
+    - name: create file for user
+      ansible.builtin.file:
+         path: /home/ {{ user }} / /myfile
+         state: touch
+      when: file_exists is failed
+    - name: show message if file exists
+      ansible.builtin.debug:
+        msg: the user file already exists
+      when: file_exists is succeeded   
+
+
+

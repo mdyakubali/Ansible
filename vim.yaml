@@ -1,0 +1,9 @@
+---
+- name: Install Vim
+  hosts: all
+  become: yes
+  tasks:
+    - name: install Vim
+      ansible.builtin.apt:
+        name: vim
+        update_cache: yes

@@ -1,0 +1,11 @@
+---
+- name: vars example 
+  hosts: all
+  become: yes
+  vars:
+    - username: Ali 
+    - home: /home/Ali 
+  tasks:
+    - name: print variables
+      ansible.builtin.debug:
+        msg: "Username:  {{ username }}, Home Dir: {{ home}} "
